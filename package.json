@@ -1,0 +1,23 @@
+{
+  "name": "got",
+  "version": "0.1.0",
+  "dependencies": {
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "json-server": "json-server --watch db.json --id name --read-only --port 3001",
+    "host": "react-scripts start",
+    "start": "run-p json-server host"
+  },
+  "devDependencies": {
+    "json-server": "^0.12.1",
+    "npm-run-all": "^4.1.2"
+  }
+}
