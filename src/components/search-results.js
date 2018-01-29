@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 
 export const SearchResults = ({ results }) => {
   return (
-    <ul>
-      {results.map(result => <li>{result.name}</li>)}
-    </ul>
+    <div>
+      <h2>Results</h2>
+      <ul>
+        {results.map(result => <li>{result.name}</li>)}
+      </ul>
+    </div>
   );
 };
 
