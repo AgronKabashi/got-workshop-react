@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export class Search extends React.Component {
+class Search extends React.Component {
   onClick = () => {
     this.props.onSearch(this.searchElement.value);
     this.searchElement.value = "";
@@ -20,3 +20,5 @@ export class Search extends React.Component {
 Search.propTypes = {
   onSearch: PropTypes.func.isRequired
 };
+
+export default Search;

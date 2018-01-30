@@ -1,33 +1,33 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { Header } from "./header";
-import { Search } from "./search";
-import { SearchResults } from "./search-results";
-import { Seasons } from "./seasons";
-import { Season } from "./season";
+import { Route } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import Header from "./header";
+import Search from "./search";
+import SearchResults from "./search-results";
+import Seasons from "./seasons";
+import Season from "./season";
+import Episode from "./episode";
+import ApplicationActions from "store/actions/app";
+import SearchActions from "store/actions/search";
 
 class App extends React.Component {
-  constructor (props) {
-    super(props);
-
-    this.state = {
-      searchResults: []
-    };
+  componentDidMount () {
+    this.props.appActions.fetchEverything();
   }
 
   onSearch = query => {
-    fetch(`http://localhost:3001/episodes?q=${query}`)
-      .then(response => response.json())
-      .then(searchResults => {
-        this.props.history.push(`/search?query=${query}`);
-        this.setState({
-          searchResults
-        });
-      });
+    const { history, searchActions } = this.props;
+
+    history.push(`/search/${encodeURIComponent(query)}`);
+    searchActions.search(query);
   }
 
   render () {
-    const { searchResults } = this.state;
+    const { isLoading } = this.props;
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <div>
@@ -36,10 +36,19 @@ class App extends React.Component {
         </Header>
         <Route exact path="/" component={Seasons} />
         <Route exact path="/season/:season" component={Season} />
-        <Route exact path="/search" render={() => <SearchResults results={searchResults} />} />
+        <Route exact path="/season/:season/:episode" component={Episode} />
+        <Route exact path="/search/:query" component={SearchResults} />
       </div>
     );
   }
 }
 
-export default App;
+export default connect(
+  ({ app }) => ({
+    isLoading: app.isLoading
+  }),
+  dispatch => ({
+    appActions: bindActionCreators(ApplicationActions, dispatch),
+    searchActions: bindActionCreators(SearchActions, dispatch)
+  })
+)(App);
